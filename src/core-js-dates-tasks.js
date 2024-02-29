@@ -77,8 +77,13 @@ function getDayName(date) {
  * Date('2024-02-13T00:00:00Z') => Date('2024-02-16T00:00:00Z')
  * Date('2024-02-16T00:00:00Z') => Date('2024-02-23T00:00:00Z')
  */
-function getNextFriday(/* date */) {
-  throw new Error('Not implemented');
+function getNextFriday(date) {
+  const timeStamp1 = date.getTime();
+  const day = date.getDay();
+  const diff = day < 5 ? 5 - day : 12 - day;
+  const diffInMs = diff * 24 * 60 * 60 * 1000;
+  const timeStamp2 = timeStamp1 + diffInMs;
+  return new Date(timeStamp2);
 }
 
 /**
@@ -92,8 +97,10 @@ function getNextFriday(/* date */) {
  * 1, 2024 => 31
  * 2, 2024 => 29
  */
-function getCountDaysInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountDaysInMonth(month, year) {
+  const diff = new Date(year, month) - new Date(year, month - 1);
+  const days = diff / (24 * 3600 * 1000);
+  return days;
 }
 
 /**
@@ -107,8 +114,10 @@ function getCountDaysInMonth(/* month, year */) {
  * '2024-02-01T00:00:00.000Z', '2024-02-02T00:00:00.000Z'  => 2
  * '2024-02-01T00:00:00.000Z', '2024-02-12T00:00:00.000Z'  => 12
  */
-function getCountDaysOnPeriod(/* dateStart, dateEnd */) {
-  throw new Error('Not implemented');
+function getCountDaysOnPeriod(dateStart, dateEnd) {
+  const diff =
+    (new Date(dateEnd) - new Date(dateStart)) / (24 * 3600 * 1000) + 1;
+  return diff;
 }
 
 /**
