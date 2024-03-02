@@ -219,14 +219,9 @@ function getWeekNumberByDate(date) {
   month = month + 1 < 10 ? `0${month + 1}` : month + 1;
   let day = date.getDate();
   day = day < 10 ? `0${day}` : day;
-  console.log('year=', year);
-  console.log('month=', month);
-  console.log('day=', day);
+
   const startDate = new Date(`${year}-01-01`);
   const endDate = new Date(`${year}-${month}-${day}`);
-
-  console.log('startDate =', startDate);
-  console.log('endDate =', endDate);
 
   if (startDate.getDay() !== 0) {
     while (startDate.getDay() !== 0) {
@@ -242,12 +237,9 @@ function getWeekNumberByDate(date) {
 
   const startTimeStamp = startDate.getTime();
   const endTimeStamp = endDate.getTime();
-  console.log('startDate =', startDate);
-  console.log('endDate =', endDate);
-  console.log(startTimeStamp);
-  console.log(endTimeStamp);
+
   const diff = (+endTimeStamp - +startTimeStamp) / msPerWeek;
-  console.log('diff=', diff);
+
   return diff;
 }
 
@@ -262,8 +254,16 @@ function getWeekNumberByDate(date) {
  * Date(2024, 0, 13) => Date(2024, 8, 13)
  * Date(2023, 1, 1) => Date(2023, 9, 13)
  */
-function getNextFridayThe13th(/* date */) {
-  throw new Error('Not implemented');
+function getNextFridayThe13th(date) {
+  const dayOfWeek = date.getDay();
+  const startDate = date;
+  const diff = dayOfWeek <= 5 ? 5 - dayOfWeek : 6;
+  startDate.setDate(startDate.getDate() + diff);
+  while (startDate.getDate() !== 13) {
+    startDate.setDate(startDate.getDate() + 7);
+  }
+
+  return startDate;
 }
 
 /**
