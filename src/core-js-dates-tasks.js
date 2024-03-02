@@ -186,8 +186,18 @@ function formatDate(date) {
  * 12, 2023 => 10
  * 1, 2024 => 8
  */
-function getCountWeekendsInMonth(/* month, year */) {
-  throw new Error('Not implemented');
+function getCountWeekendsInMonth(month, year) {
+  const monthStr = month < 10 ? `0${month}` : month;
+  const startDateStr = `${year}-${monthStr}-01`;
+  const date = new Date(startDateStr);
+  const days = [];
+  while (date.getMonth() + 1 === month) {
+    const day = date.getDay();
+    days.push(day);
+    date.setDate(date.getDate() + 1);
+  }
+  const weekends = days.filter((day) => day === 0 || day === 6);
+  return weekends.length;
 }
 
 /**
@@ -202,8 +212,43 @@ function getCountWeekendsInMonth(/* month, year */) {
  * Date(2024, 0, 31) => 5
  * Date(2024, 1, 23) => 8
  */
-function getWeekNumberByDate(/* date */) {
-  throw new Error('Not implemented');
+function getWeekNumberByDate(date) {
+  const msPerWeek = 7 * 24 * 3600 * 1000;
+  const year = date.getFullYear();
+  let month = date.getMonth();
+  month = month + 1 < 10 ? `0${month + 1}` : month + 1;
+  let day = date.getDate();
+  day = day < 10 ? `0${day}` : day;
+  console.log('year=', year);
+  console.log('month=', month);
+  console.log('day=', day);
+  const startDate = new Date(`${year}-01-01`);
+  const endDate = new Date(`${year}-${month}-${day}`);
+
+  console.log('startDate =', startDate);
+  console.log('endDate =', endDate);
+
+  if (startDate.getDay() !== 0) {
+    while (startDate.getDay() !== 0) {
+      startDate.setDate(startDate.getDate() - 1);
+    }
+  }
+
+  if (endDate.getDay() !== 0) {
+    while (endDate.getDay() !== 0) {
+      endDate.setDate(endDate.getDate() + 1);
+    }
+  }
+
+  const startTimeStamp = startDate.getTime();
+  const endTimeStamp = endDate.getTime();
+  console.log('startDate =', startDate);
+  console.log('endDate =', endDate);
+  console.log(startTimeStamp);
+  console.log(endTimeStamp);
+  const diff = (+endTimeStamp - +startTimeStamp) / msPerWeek;
+  console.log('diff=', diff);
+  return diff;
 }
 
 /**
