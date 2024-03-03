@@ -222,15 +222,19 @@ function getWeekNumberByDate(date) {
 
   const startDate = new Date(`${year}-01-01`);
   const endDate = new Date(`${year}-${month}-${day}`);
+  let diff = 0;
+  if (endDate.getDay() === 1) {
+    diff = 1;
+  }
 
-  if (startDate.getDay() !== 0) {
-    while (startDate.getDay() !== 0) {
+  if (startDate.getDay() !== 1) {
+    while (startDate.getDay() !== 1) {
       startDate.setDate(startDate.getDate() - 1);
     }
   }
 
-  if (endDate.getDay() !== 0) {
-    while (endDate.getDay() !== 0) {
+  if (endDate.getDay() !== 1) {
+    while (endDate.getDay() !== 1) {
       endDate.setDate(endDate.getDate() + 1);
     }
   }
@@ -238,7 +242,7 @@ function getWeekNumberByDate(date) {
   const startTimeStamp = startDate.getTime();
   const endTimeStamp = endDate.getTime();
 
-  const diff = (+endTimeStamp - +startTimeStamp) / msPerWeek;
+  diff += (+endTimeStamp - +startTimeStamp) / msPerWeek;
 
   return diff;
 }
